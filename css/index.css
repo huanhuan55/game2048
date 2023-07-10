@@ -1,0 +1,60 @@
+.grid-box {
+  width: 370px;
+  height: 370px;
+  background: #bbada0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: space-evenly;
+  /* 字体 */
+  font-size: 38px;
+  /* font-weight: bold; */
+  text-align: center;
+  line-height: 80px;
+}
+
+.grid-box .grid-cell {
+  width: 80px;
+  height: 80px;
+  background: rgba(238, 228, 218, 0.35);
+  color: #776e65;
+  /* 给方块添加圆角 */
+  border-radius: 5px;
+}
+
+.grid-box .grid-cell > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.grid-box .grid-cell-value-2 {
+  background: #eee4da;
+  color: #776e65;
+}
+
+.grid-box .grid-cell-value-4 {
+  background: rgba(240, 192, 145, 0.35);
+  color: #814645;
+}
+
+.grid-box .grid-cell-value-8 {
+  background: rgba(227, 194, 160, 0.35);
+  color: #601110;
+}
+
+.grid-box .grid-cell-value-16 {
+  background: rgba(58, 15, 104, 0.35);
+  color: #0f2282;
+}
+
+.grid-box .grid-cell-value-32 {
+  background: rgba(46, 128, 62, 0.35);
+  color: #d45261;
+}
+
+.grid-box .grid-cell-value-64 {
+  background: rgba(38, 136, 84, 0.35);
+  color: #670543;
+}
