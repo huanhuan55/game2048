@@ -1,5 +1,6 @@
 let restartBtn = document.querySelector(".restart-btn");
-let bestScoreValue = document.querySelector(".best-score-value");
+let bestValueTextBtn = document.querySelector(".best-value>.text");
+let scoreValueTextBtn = document.querySelector(".score-value>.text");
 let gridArr;
 
 let score = 0;
@@ -25,10 +26,10 @@ function start() {
   // gridArr[6] = 2;
   // gridArr[7] = 4;
   // gridArr[9] = 2;
-  // gridArr[10] = 2;
+  // gridArr[10] = 10240;
   generateNum();
   generateNum();
-  bestScoreValue.innerHTML = `最高分${best}`;
+  bestValueTextBtn.innerHTML = `最高分${best}`;
   render();
 }
 
@@ -43,12 +44,12 @@ function generateNum() {
 
 // 将数组渲染至页面的结构中
 function render() {
-  let scoreValue = document.querySelector(".score-value");
-  scoreValue.innerText = score;
+  // 把当前游戏的分数渲染
+  scoreValueTextBtn.innerText = score;
   // 从本地存贮中获取bestScore
   best = localStorage.getItem("bestScore");
   // 把最高分渲染出来
-  bestScoreValue.innerHTML = best;
+  bestValueTextBtn.innerHTML = best;
   for (let idx = 0; idx < 16; idx++) {
     let row = parseInt(idx / 4);
     let col = idx % 4;
@@ -61,8 +62,15 @@ function render() {
     } else {
       gridCell.innerHTML = `<span class="grid-cell-value-${val}">${val}</span> `;
     }
+    // 给2位数以内的数字大小为53px，三位数以上的大小为43px
     let len = String(val).length;
-    gridCell.style.fontSize = len < 2 ? "38px" : "34px";
+    gridCell.style.fontSize = len < 3 ? "53px" : "43px";
+    if (len === 4) {
+      gridCell.style.fontSize = "35px";
+    }
+    if (len === 5) {
+      gridCell.style.fontSize = "30px";
+    }
   }
 }
 
@@ -112,6 +120,117 @@ document.onkeydown = function (event) {
     }
   }
 };
+
+/**
+ * 下面是手机端判断手势滑动方向
+ */
+// 手机滑动屏幕，传入事件
+var startx, starty;
+
+//获得角度
+function getAngle(angx, angy) {
+  return (Math.atan2(angy, angx) * 180) / Math.PI;
+}
+
+//根据起点终点返回方向 1向上滑动 2向下滑动 3向左滑动 4向右滑动 0点击事件
+function getDirection(startx, starty, endx, endy) {
+  var angx = endx - startx;
+  var angy = endy - starty;
+  var result = 0;
+
+  //如果滑动距离太短
+  if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+    return result;
+  }
+
+  var angle = getAngle(angx, angy);
+  if (angle >= -135 && angle <= -45) {
+    result = 1;
+  } else if (angle > 45 && angle < 135) {
+    result = 2;
+  } else if (
+    (angle >= 135 && angle <= 180) ||
+    (angle >= -180 && angle < -135)
+  ) {
+    result = 3;
+  } else if (angle >= -45 && angle <= 45) {
+    result = 4;
+  }
+  return result;
+}
+
+//手指接触屏幕
+document.addEventListener(
+  "touchstart",
+  function (e) {
+    startx = e.touches[0].pageX;
+    starty = e.touches[0].pageY;
+  },
+  false
+);
+
+//手指离开屏幕
+document.addEventListener(
+  "touchend",
+  function (e) {
+    // 判断是否结束游戏
+    let ifLeft = ifCanMoveLeft();
+    let ifRight = ifCanMoveRight();
+    let ifUp = ifCanMoveUp();
+    let ifDown = ifCanMoveDown();
+    if (!ifLeft && !ifRight && !ifUp && !ifDown) {
+      //
+      if (score > best) {
+        localStorage.setItem("bestScore", score);
+      }
+      alert("Game Over");
+      return;
+    }
+
+    // 没有结束游戏，判断手势滑动方向
+    var endx, endy;
+    endx = e.changedTouches[0].pageX;
+    endy = e.changedTouches[0].pageY;
+    var direction = getDirection(startx, starty, endx, endy);
+    switch (direction) {
+      case 0:
+        // alert("点击！");
+        break;
+      case 1:
+        if (ifUp) {
+          moveUp();
+          generateNum();
+          render();
+        }
+        break;
+      case 2:
+        if (ifDown) {
+          moveDown();
+          generateNum();
+          render();
+        }
+        break;
+      case 3:
+        if (ifLeft) {
+          moveLeft();
+          generateNum();
+          render();
+        }
+        break;
+      case 4:
+        if (ifRight) {
+          moveRight();
+          generateNum();
+          render();
+        }
+        break;
+      default:
+        // alert("点击！");
+        break;
+    }
+  },
+  false
+);
 
 // 避开第一列格子
 // 只要找到一个格子的前一个格子没有值或值等于零，才可以移动棋盘

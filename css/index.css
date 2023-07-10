@@ -1,21 +1,90 @@
-.grid-box {
-  width: 370px;
-  height: 370px;
+body {
+  background: #eae49038;
+}
+.game-container {
+  width: 450px;
+  margin: 0 auto;
+}
+.game-container .main-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.game-container .main-info h1 {
+  /*字体*/
+  color: #776e65;
+  font-size: 80px;
+  font-weight: bold;
+  /* margin: 上 右 下 左 */
+  margin: 0 0 10px 0;
+  line-height: 80px;
+}
+
+.game-container .main-info .all-score {
+  display: flex;
+}
+
+.game-container .main-info .all-score .score-box {
+  width: 110px;
+  height: 55px;
   background: #bbada0;
+  border-radius: 3px;
+  /* 为了让分数盒子内的 文字跟分数，竖着摆放，且水平、垂直均居中 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 最佳分数的盒子与当前分数的盒子之间的间距为10px */
+.main-info .all-score .score-box:nth-child(2) {
+  margin-left: 10px;
+}
+.main-info .all-score .score-box span:nth-child(1) {
+  font-size: 13px;
+  color: #eee4da;
+}
+.main-info .all-score .score-box span:nth-child(2) {
+  font-size: 25px;
+  color: #fff;
+}
+/* ======================= */
+.game-intro {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.game-intro .intro {
+  width: 80%;
+}
+.game-intro .restart-btn {
+  width: 20%;
+  background: #8f7a66;
+  color: #fff;
+  border: 0 none;
+  border-radius: 2px;
+}
+/* ================== */
+.grid-box {
+  width: 450px;
+  height: 450px;
+  background: #bbada0;
+  border-radius: 4px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-content: space-evenly;
   /* 字体 */
-  font-size: 38px;
+  font-size: 53px;
+  font-weight: 700;
   /* font-weight: bold; */
   text-align: center;
-  line-height: 80px;
+  line-height: 100px;
 }
 
 .grid-box .grid-cell {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background: rgba(238, 228, 218, 0.35);
   color: #776e65;
   /* 给方块添加圆角 */
