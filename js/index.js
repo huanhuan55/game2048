@@ -29,7 +29,6 @@ function start() {
   // gridArr[10] = 10240;
   generateNum();
   generateNum();
-  bestValueTextBtn.innerHTML = `最高分${best}`;
   render();
 }
 
@@ -49,7 +48,7 @@ function render() {
   // 从本地存贮中获取bestScore
   best = localStorage.getItem("bestScore");
   // 把最高分渲染出来
-  bestValueTextBtn.innerHTML = best;
+  bestValueTextBtn.innerHTML = best > 0 ? best : 0;
   for (let idx = 0; idx < 16; idx++) {
     let row = parseInt(idx / 4);
     let col = idx % 4;
